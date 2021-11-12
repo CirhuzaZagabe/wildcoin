@@ -1,22 +1,5 @@
 pragma solidity ^0.4.24;
 
-// ----------------------------------------------------------------------------
-// Sample token contract
-//
-// Symbol        : WLD
-// Name          : Wild Life Coin
-// Total supply  : 1000000
-// Decimals      : 5
-// Owner Account : 0xb3F5923e828A274Bed89bf312476c49e17fccb46
-//
-// Enjoy.
-//
-// (c) by Juan Cruz Martinez 2020. MIT Licence.
-// ----------------------------------------------------------------------------
-
-// ----------------------------------------------------------------------------
-// Lib: Safe Math
-// ----------------------------------------------------------------------------
 contract SafeMath {
     function safeAdd(uint256 a, uint256 b) public pure returns (uint256 c) {
         c = a + b;
@@ -41,7 +24,6 @@ contract SafeMath {
 
 /**
 ERC Token Standard #20 Interface
-https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md
 */
 contract ERC20Interface {
     function totalSupply() public constant returns (uint256);
@@ -78,8 +60,6 @@ contract ERC20Interface {
 
 /**
 Contract function to receive approval and execute function in one call
-
-Borrowed from MiniMeToken
 */
 contract ApproveAndCallFallBack {
     function receiveApproval(
@@ -102,9 +82,6 @@ contract WLDToken is ERC20Interface, SafeMath {
     mapping(address => uint256) balances;
     mapping(address => mapping(address => uint256)) allowed;
 
-    // ------------------------------------------------------------------------
-    // Constructor
-    // ------------------------------------------------------------------------
     constructor() public {
         symbol = "WLD";
         name = "Wild Life Coin";
@@ -125,9 +102,6 @@ contract WLDToken is ERC20Interface, SafeMath {
         return _totalSupply - balances[address(0)];
     }
 
-    // ------------------------------------------------------------------------
-    // Get the token balance for account tokenOwner
-    // ------------------------------------------------------------------------
     function balanceOf(address tokenOwner)
         public
         constant
@@ -136,11 +110,6 @@ contract WLDToken is ERC20Interface, SafeMath {
         return balances[tokenOwner];
     }
 
-    // ------------------------------------------------------------------------
-    // Transfer the balance from token owner's account to to account
-    // - Owner's account must have sufficient balance to transfer
-    // - 0 value transfers are allowed
-    // ------------------------------------------------------------------------
     function transfer(address to, uint256 tokens)
         public
         returns (bool success)
@@ -151,14 +120,6 @@ contract WLDToken is ERC20Interface, SafeMath {
         return true;
     }
 
-    // ------------------------------------------------------------------------
-    // Token owner can approve for spender to transferFrom(...) tokens
-    // from the token owner's account
-    //
-    // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md
-    // recommends that there are no checks for the approval double-spend attack
-    // as this should be implemented in user interfaces
-    // ------------------------------------------------------------------------
     function approve(address spender, uint256 tokens)
         public
         returns (bool success)
@@ -168,15 +129,6 @@ contract WLDToken is ERC20Interface, SafeMath {
         return true;
     }
 
-    // ------------------------------------------------------------------------
-    // Transfer tokens from the from account to the to account
-    //
-    // The calling account must already have sufficient tokens approve(...)-d
-    // for spending from the from account and
-    // - From account must have sufficient balance to transfer
-    // - Spender must have sufficient allowance to transfer
-    // - 0 value transfers are allowed
-    // ------------------------------------------------------------------------
     function transferFrom(
         address from,
         address to,
@@ -189,10 +141,6 @@ contract WLDToken is ERC20Interface, SafeMath {
         return true;
     }
 
-    // ------------------------------------------------------------------------
-    // Returns the amount of tokens approved by the owner that can be
-    // transferred to the spender's account
-    // ------------------------------------------------------------------------
     function allowance(address tokenOwner, address spender)
         public
         constant
@@ -201,11 +149,6 @@ contract WLDToken is ERC20Interface, SafeMath {
         return allowed[tokenOwner][spender];
     }
 
-    // ------------------------------------------------------------------------
-    // Token owner can approve for spender to transferFrom(...) tokens
-    // from the token owner's account. The spender contract function
-    // receiveApproval(...) is then executed
-    // ------------------------------------------------------------------------
     function approveAndCall(
         address spender,
         uint256 tokens,
@@ -223,7 +166,7 @@ contract WLDToken is ERC20Interface, SafeMath {
     }
 
     // ------------------------------------------------------------------------
-    // Don't accept ETH
+    // Refuse to accept ETH
     // ------------------------------------------------------------------------
     function() public payable {
         revert();
